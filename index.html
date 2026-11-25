@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071426">
+<title>MATHY TV</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #071426;
+  color: white;
+}
+header {
+  padding: 20px;
+  background: #102442;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 25px; font-weight: bold; color: #35a9ff; }
+header span { font-size: 12px; color: #bbb; }
+nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 15px 5px;
+  background: #142b49;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+nav button {
+  background: transparent;
+  color: white;
+  border: 0;
+  padding: 9px;
+  cursor: pointer;
+}
+.hero {
+  padding: 35px 20px;
+  background: linear-gradient(120deg,#123d70,#071426);
+}
+.hero h1 { font-size: 30px; }
+.hero p { color: #c4d5e8; }
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #45617e;
+  background: #102442;
+  color: white;
+}
+main { padding: 20px; }
+.channels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(135px,1fr));
+  gap: 14px;
+}
+.card {
+  background: #142b49;
+  padding: 18px 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+.card .tv { font-size: 35px; }
+.card h3 { font-size: 15px; }
+.card p { color: #9db3ca; font-size: 12px; }
+.card button {
+  background: #087ce5;
+  color: white;
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 7px;
+}
+.notice {
+  color: #ffda88;
+  font-size: 13px;
+  margin-top: 20px;
+}
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #9db3ca;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">📺 MATHY TV</div>
+  <span>LA TÉLÉVISION EN LIGNE</span>
+</header>
+
+<nav>
+  <button onclick="showCategory('Tous')">Accueil</button>
+  <button onclick="showCategory('Afrique')">Afrique</button>
+  <button onclick="showCategory('Sports')">Sports</button>
+  <button onclick="showCategory('France')">France</button>
+</nav>
+
+<section class="hero">
+  <h1>Bienvenue sur MATHY TV</h1>
+  <p>Vos chaînes préférées au même endroit.</p>
+  <input id="search" placeholder="🔍 Rechercher une chaîne..."
+  oninput="renderChannels()">
+</section>
+
+<main>
+  <h2 id="heading">📡 Nos chaînes</h2>
+  <div class="channels" id="channels"></div>
+  <p class="notice">
+    Les chaînes affichées sont des exemples.
+    Ajoutez uniquement des flux autorisés.
+  </p>
+</main>
+
+<footer>
+  © 2026 MATHY TV - Tous droits réservés
+</footer>
+
+<script>
+const channelList = [
+  {name:"Chaîne Congo",category:"Afrique"},
+  {name:"Chaîne Afrique",category:"Afrique"},
+  {name:"Sport TV",category:"Sports"},
+  {name:"Football TV",category:"Sports"},
+  {name:"France TV",category:"France"},
+  {name:"Info TV",category:"France"}
+];
+
+let selected = "Tous";
+
+function showCategory(category) {
+  selected = category;
+  document.getElementById("heading").textContent =
+    "📡 " + category;
+  renderChannels();
+}
+
+function renderChannels() {
+  const query = document.getElementById("search")
+    .value.toLowerCase();
+
+  const filtered = channelList.filter(channel =>
+    (selected === "Tous" || channel.category === selected) &&
+    channel.name.toLowerCase().includes(query)
+  );
+
+  document.getElementById("channels").innerHTML =
+    filtered.map(channel => `
+      <div class="card">
+        <div class="tv">📺</div>
+        <h3>${channel.name}</h3>
+        <p>${channel.category}</p>
+        <button onclick="alert('Cette chaîne est une démonstration. Ajoutez un flux autorisé pour la regarder.')">
+          Regarder
+        </button>
+      </div>
+    `).join("") || "<p>Aucune chaîne trouvée.</p>";
+}
+
+renderChannels();
+</script>
+
+</body>
+  </html>
+  
